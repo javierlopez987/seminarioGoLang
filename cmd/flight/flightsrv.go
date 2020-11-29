@@ -55,7 +55,13 @@ func readConfig() *config.Config {
 func createSchema(db *sqlx.DB) error {
 	schema := `CREATE TABLE IF NOT EXISTS flights (
 		id integer primary key autoincrement,
-		airlinename text);`
+		airlinename text,
+		flightnumber text,
+		departuredatetime text,
+		arrivaldatetime text,
+		departureairport text,
+		arrivalairport text
+		);`
 
 	// ejecuta una query en el servidor
 	_, err := db.Exec(schema)
@@ -65,8 +71,12 @@ func createSchema(db *sqlx.DB) error {
 
 	// MustExec tira un panic on error
 	insertMessage := `INSERT INTO flights (
-		AirlineName) VALUES (?)`
+		AirlineName, FlightNumber, DepartureDateTime, 
+		ArrivalDateTime, DepartureAirport, ArrivalAirport) VALUES (?, ?, ?, ?, ?, ?)`
 	name := fmt.Sprintf("Airline %v", time.Now().Nanosecond())
-	db.MustExec(insertMessage, name)
+	number := fmt.Sprintf("Flight %v", time.Now().Nanosecond())
+	departure := fmt.Sprintf("Departure Date %v", time.Now().Nanosecond())
+	arrival := fmt.Sprintf("Arrival Date %v", time.Now().Nanosecond())
+	db.MustExec(insertMessage, name, number, departure, arrival, "EZE", "MAD")
 	return nil
 }

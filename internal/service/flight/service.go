@@ -9,6 +9,11 @@ import (
 type Flight struct {
 	ID int
 	AirlineName string
+	FlightNumber string
+	DepartureDateTime string
+	ArrivalDateTime string
+	DepartureAirport string
+	ArrivalAirport string
 }
 
 // Service ...

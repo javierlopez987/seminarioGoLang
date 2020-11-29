@@ -10,7 +10,6 @@ import (
 	"github.com/javierlopez987/seminarioGoLang/internal/database"
 	"github.com/javierlopez987/seminarioGoLang/internal/service/flight"
 
-	"github.com/jmoiron/sqlx"
 )
 
 func main()  {
@@ -21,11 +20,6 @@ func main()  {
 	// Instanciacion de db
 	db, err := database.NewDatabase(cfg)
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
-
-	if err := createSchema(db); err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
@@ -64,25 +58,4 @@ func readConfig() *config.Config {
 	}
 
 	return cfg
-}
-
-// Solo en entornos de desarrollo
-func createSchema(db *sqlx.DB) error {
-	schema := `CREATE TABLE IF NOT EXISTS flights (
-		id integer primary key autoincrement,
-		airlinename text,
-		flightnumber text,
-		departuredatetime text,
-		arrivaldatetime text,
-		departureairport text,
-		arrivalairport text
-		);`
-
-	// ejecuta una query en el servidor
-	_, err := db.Exec(schema)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }

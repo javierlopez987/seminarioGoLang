@@ -36,6 +36,9 @@ func main()  {
 	for _, m := range service.FindAll() {
 		fmt.Println(m)
 	}
+
+	f := service.FindByID(2)
+	fmt.Println(f)
 }
 
 func readConfig() *config.Config {

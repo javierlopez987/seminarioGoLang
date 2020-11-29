@@ -46,7 +46,12 @@ func (s service) FindByID(ID int) (*Flight)  {
 	if err := s.db.Select(&f, "SELECT * FROM flights WHERE id = ?", ID); err != nil {
 		panic(err)
 	}
-	return f[0]
+
+	if len(f) > 0 {
+		return f[0]
+	} else {
+		return nil
+	}
 }
 
 // FindAll ...

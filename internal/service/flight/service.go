@@ -18,7 +18,7 @@ type Flight struct {
 
 // Service ...
 type Service interface {
-	Add(Flight) error
+	Add(Flight)
 	FindByID(int) *Flight
 	FindAll() []*Flight
 	Delete(int)
@@ -36,13 +36,17 @@ func New(db *sqlx.DB, c *config.Config) (Service, error) {
 }
 
 // Add ...
-func (s service) Add(f Flight) error {
-	return nil
+func (s service) Add(f Flight) {
+	
 }
 
 // FindByID ...
-func (s service) FindByID(ID int) (f *Flight)  {
-	return nil
+func (s service) FindByID(ID int) (*Flight)  {
+	var f []*Flight
+	if err := s.db.Select(&f, "SELECT * FROM flights WHERE id = ?", ID); err != nil {
+		panic(err)
+	}
+	return f[0]
 }
 
 // FindAll ...
@@ -55,8 +59,9 @@ func (s service) FindAll() []*Flight {
 }
 
 // Delete ...
-func (s service) Delete(ID int)  {
-	
+func (s service) Delete(ID int) {
+	query := "DELETE  FROM flights WHERE id = ?"
+	s.db.Exec(query, ID)
 }
 
 // Update ...

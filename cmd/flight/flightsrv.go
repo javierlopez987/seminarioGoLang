@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"flag"
 	"os"
-	"time"
 
 	"github.com/javierlopez987/seminarioGoLang/internal/config"
 	"github.com/javierlopez987/seminarioGoLang/internal/database"
 	"github.com/javierlopez987/seminarioGoLang/internal/service/flight"
+
+	"github.com/gin-gonic/gin"
 
 )
 
@@ -19,6 +20,8 @@ func main()  {
 
 	// Instanciacion de db
 	db, err := database.NewDatabase(cfg)
+	defer db.Close()
+	
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
@@ -26,25 +29,11 @@ func main()  {
 
 	// Instanciacion un servicio y le inyecta la configuracion y la base de datos
 	service, _ := flight.New(db, cfg)
+	httpService := flight.NewHTTPTransport(service)
 
-	f := service.FindByID(4)
-	fmt.Println(f)
-	
-	ID := 4
-	name := fmt.Sprintf("Airline %v", time.Now().Nanosecond())
-	number := fmt.Sprintf("Flight %v", time.Now().Nanosecond())
-	departure := fmt.Sprintf("Departure Date %v", time.Now().Nanosecond())
-	arrival := fmt.Sprintf("Arrival Date %v", time.Now().Nanosecond())
-	
-	flight, _ := flight.NewFlight(ID, name, number, departure, arrival, "EZE", "MAD")
-	
-	// service.Add(flight)
-	
-	service.Update(flight)
-
-	f = service.FindByID(4)
-	fmt.Println(f)
-
+	r:= gin.Default()
+	httpService.Register(r)
+	r.Run()
 }
 
 func readConfig() *config.Config {

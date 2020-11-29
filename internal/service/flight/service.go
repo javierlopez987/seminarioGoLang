@@ -2,6 +2,7 @@ package flight
 
 import (
 	"github.com/javierlopez987/seminarioGoLang/internal/config"
+
 	"github.com/jmoiron/sqlx"
 )
 
@@ -14,6 +15,16 @@ type Flight struct {
 	ArrivalDateTime string
 	DepartureAirport string
 	ArrivalAirport string
+}
+
+// NewFlight ...
+func NewFlight(ID int, AirlineName string,
+	FlightNumber string,
+	DepartureDateTime string,
+	ArrivalDateTime string,
+	DepartureAirport string,
+	ArrivalAirport string) (Flight, error) {
+	return Flight{ID, AirlineName, FlightNumber, DepartureDateTime, ArrivalDateTime, DepartureAirport, ArrivalAirport}, nil
 }
 
 // Service ...
@@ -37,7 +48,11 @@ func New(db *sqlx.DB, c *config.Config) (Service, error) {
 
 // Add ...
 func (s service) Add(f Flight) {
-	
+	query := `INSERT INTO flights (
+		AirlineName, FlightNumber, DepartureDateTime, 
+		ArrivalDateTime, DepartureAirport, ArrivalAirport) VALUES (?, ?, ?, ?, ?, ?)`
+	s.db.Exec(query, f.AirlineName, 
+		f.FlightNumber, f.DepartureDateTime, f.ArrivalDateTime, f.DepartureAirport, f.ArrivalAirport)
 }
 
 // FindByID ...
@@ -65,11 +80,16 @@ func (s service) FindAll() []*Flight {
 
 // Delete ...
 func (s service) Delete(ID int) {
-	query := "DELETE  FROM flights WHERE id = ?"
+	query := "DELETE FROM flights WHERE id = ?"
 	s.db.Exec(query, ID)
 }
 
 // Update ...
 func (s service) Update(f Flight) {
-	
+	query := `UPDATE flights 
+		SET AirlineName = ?, FlightNumber = ?, DepartureDateTime = ?, 
+		ArrivalDateTime = ?, DepartureAirport = ?, ArrivalAirport = ? 
+		WHERE ID = ?`
+	s.db.Exec(query, f.AirlineName, 
+		f.FlightNumber, f.DepartureDateTime, f.ArrivalDateTime, f.DepartureAirport, f.ArrivalAirport, f.ID)
 }

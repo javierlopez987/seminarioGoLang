@@ -33,12 +33,24 @@ func main()  {
 	// Instanciacion un servicio y le inyecta la configuracion y la base de datos
 	service, _ := flight.New(db, cfg)
 
-	for _, m := range service.FindAll() {
-		fmt.Println(m)
-	}
-
-	f := service.FindByID(2)
+	f := service.FindByID(4)
 	fmt.Println(f)
+	
+	ID := 4
+	name := fmt.Sprintf("Airline %v", time.Now().Nanosecond())
+	number := fmt.Sprintf("Flight %v", time.Now().Nanosecond())
+	departure := fmt.Sprintf("Departure Date %v", time.Now().Nanosecond())
+	arrival := fmt.Sprintf("Arrival Date %v", time.Now().Nanosecond())
+	
+	flight, _ := flight.NewFlight(ID, name, number, departure, arrival, "EZE", "MAD")
+	
+	// service.Add(flight)
+	
+	service.Update(flight)
+
+	f = service.FindByID(4)
+	fmt.Println(f)
+
 }
 
 func readConfig() *config.Config {
@@ -72,14 +84,5 @@ func createSchema(db *sqlx.DB) error {
 		return err
 	}
 
-	// MustExec tira un panic on error
-	insertMessage := `INSERT INTO flights (
-		AirlineName, FlightNumber, DepartureDateTime, 
-		ArrivalDateTime, DepartureAirport, ArrivalAirport) VALUES (?, ?, ?, ?, ?, ?)`
-	name := fmt.Sprintf("Airline %v", time.Now().Nanosecond())
-	number := fmt.Sprintf("Flight %v", time.Now().Nanosecond())
-	departure := fmt.Sprintf("Departure Date %v", time.Now().Nanosecond())
-	arrival := fmt.Sprintf("Arrival Date %v", time.Now().Nanosecond())
-	db.MustExec(insertMessage, name, number, departure, arrival, "EZE", "MAD")
 	return nil
 }

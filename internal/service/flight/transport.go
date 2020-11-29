@@ -2,6 +2,8 @@ package flight
 
 import (
 	"net/http"
+	"strconv"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,6 +37,12 @@ func makeEndpoints(s Service) []*endpoint {
 		function: getAll(s),
 	})
 
+	list = append(list, &endpoint{
+		method: "GET",
+		path: "/flights/:id",
+		function: getOne(s),
+	})
+
 	return list
 }
 
@@ -42,6 +50,19 @@ func getAll(s Service) gin.HandlerFunc {
 	return func (c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"flights": s.FindAll(),
+		})
+	}
+}
+
+func getOne(s Service) gin.HandlerFunc {
+	return func (c *gin.Context) {
+		i := c.Param("id")
+		id, err := strconv.Atoi(i)
+		if err != nil {
+			fmt.Println(err)
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"flight": s.FindByID(id),
 		})
 	}
 }

@@ -29,7 +29,7 @@ func NewFlight(ID int, AirlineName string,
 
 // Service ...
 type Service interface {
-	Add(Flight)
+	Add(Flight) error
 	FindByID(int) *Flight
 	FindAll() []*Flight
 	Delete(int)
@@ -47,12 +47,17 @@ func New(db *sqlx.DB, c *config.Config) (Service, error) {
 }
 
 // Add ...
-func (s service) Add(f Flight) {
+func (s service) Add(f Flight) error {
 	query := `INSERT INTO flights (
 		AirlineName, FlightNumber, DepartureDateTime, 
 		ArrivalDateTime, DepartureAirport, ArrivalAirport) VALUES (?, ?, ?, ?, ?, ?)`
-	s.db.Exec(query, f.AirlineName, 
+	_, err := s.db.Exec(query, f.AirlineName, 
 		f.FlightNumber, f.DepartureDateTime, f.ArrivalDateTime, f.DepartureAirport, f.ArrivalAirport)
+	if err != nil {
+		panic(err)
+	}
+
+	return err
 }
 
 // FindByID ...

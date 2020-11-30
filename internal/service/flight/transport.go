@@ -43,6 +43,12 @@ func makeEndpoints(s Service) []*endpoint {
 		function: getOne(s),
 	})
 
+	list = append(list, &endpoint{
+		method: "POST",
+		path: "/flights",
+		function: create(s),
+	})
+
 	return list
 }
 
@@ -63,6 +69,16 @@ func getOne(s Service) gin.HandlerFunc {
 		}
 		c.JSON(http.StatusOK, gin.H{
 			"flight": s.FindByID(id),
+		})
+	}
+}
+
+func create(s Service) gin.HandlerFunc {
+	return func (c *gin.Context) {
+		var f Flight
+		c.BindJSON(&f)
+		c.JSON(http.StatusCreated, gin.H{
+			
 		})
 	}
 }

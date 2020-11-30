@@ -1,6 +1,7 @@
 package flight
 
 import (
+	"fmt"
 	"github.com/javierlopez987/seminarioGoLang/internal/config"
 
 	"github.com/jmoiron/sqlx"
@@ -29,7 +30,7 @@ func NewFlight(ID int, AirlineName string,
 
 // Service ...
 type Service interface {
-	Add(Flight) error
+	Add(Flight)
 	FindByID(int) *Flight
 	FindAll() []*Flight
 	Delete(int)
@@ -47,17 +48,17 @@ func New(db *sqlx.DB, c *config.Config) (Service, error) {
 }
 
 // Add ...
-func (s service) Add(f Flight) error {
+func (s service) Add(f Flight) {
 	query := `INSERT INTO flights (
 		AirlineName, FlightNumber, DepartureDateTime, 
 		ArrivalDateTime, DepartureAirport, ArrivalAirport) VALUES (?, ?, ?, ?, ?, ?)`
+
 	_, err := s.db.Exec(query, f.AirlineName, 
 		f.FlightNumber, f.DepartureDateTime, f.ArrivalDateTime, f.DepartureAirport, f.ArrivalAirport)
+
 	if err != nil {
 		panic(err)
 	}
-
-	return err
 }
 
 // FindByID ...
@@ -86,7 +87,12 @@ func (s service) FindAll() []*Flight {
 // Delete ...
 func (s service) Delete(ID int) {
 	query := "DELETE FROM flights WHERE id = ?"
-	s.db.Exec(query, ID)
+
+	_, err := s.db.Exec(query, ID)
+
+	if err != nil {
+		panic(err)
+	}
 }
 
 // Update ...
@@ -95,6 +101,13 @@ func (s service) Update(f Flight) {
 		SET AirlineName = ?, FlightNumber = ?, DepartureDateTime = ?, 
 		ArrivalDateTime = ?, DepartureAirport = ?, ArrivalAirport = ? 
 		WHERE ID = ?`
-	s.db.Exec(query, f.AirlineName, 
+
+	fmt.Println(f.AirlineName)
+
+	_, err := s.db.Exec(query, f.AirlineName, 
 		f.FlightNumber, f.DepartureDateTime, f.ArrivalDateTime, f.DepartureAirport, f.ArrivalAirport, f.ID)
+
+	if err != nil {
+		panic(err)
+	}
 }

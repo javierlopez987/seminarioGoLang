@@ -1,0 +1,118 @@
+{
+	"info": {
+		"_postman_id": "a182f0e7-289d-4487-ad41-a23d81180517",
+		"name": "seminarioGoLang",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/flights",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"productos\": [\r\n\t{\r\n\t\t\"id\": \"5fbe4dbdf4d10a7bb8c467d3\"\r\n\t},\r\n\t{\r\n\t\t\"id\": \"5fbe4dbdf4d10a7bb8c467d6\"\r\n\t}\r\n\t],\r\n\t\"fecha\": \"2014-10-19T16:36:14.197Z\",\r\n\t\"direccion\": 50,\r\n\t\"precio\": 100\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/flights",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"flights"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/flights/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/flights/10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"flights",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/flights",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"AirlineName\": \"Iberia\",\r\n\t\"FlightNumber\": \"IBE2656\",\r\n\t\"DepartureDateTime\": \"2020-01-02T016:00Z\",\r\n\t\"ArrivalDateTime\": \"2020-01-03T03:00Z\",\r\n\t\"DepartureAirport\": \"EZE\",\r\n\t\"ArrivalAirport\": \"MAD\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/flights",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"flights"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/flights/:id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"AirlineName\": \"Iberia\",\r\n\t\"FlightNumber\": \"IBE2656\",\r\n\t\"DepartureDateTime\": \"2020-01-02T016:00Z\",\r\n\t\"ArrivalDateTime\": \"2020-01-03T03:00Z\",\r\n\t\"DepartureAirport\": \"EZE\",\r\n\t\"ArrivalAirport\": \"MAD\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/flights/10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"flights",
+						"10"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -54,6 +54,12 @@ func makeEndpoints(s Service) []*endpoint {
 		function: update(s),
 	})
 
+	list = append(list, &endpoint{
+		method: "DELETE",
+		path: "/flights/:id",
+		function: delete(s),
+	})
+
 	return list
 }
 
@@ -111,6 +117,22 @@ func update(s Service) gin.HandlerFunc {
 		})
 	}
 }
+
+func delete(s Service) gin.HandlerFunc {
+	return func (c *gin.Context) {
+		i := c.Param("id")
+		id, err := strconv.Atoi(i)
+		if err != nil {
+			panic(err)
+		}
+		s.Delete(id)
+		c.JSON(http.StatusOK, gin.H{
+			"message": "ID " + i + " deleted",
+		})
+	}
+}
+
+
 
 // Register ...
 func (s httpService) Register(r *gin.Engine)  {

@@ -14,7 +14,7 @@
 ```
 
 ### Testeo de API REST con Postman
-[Documentacion](./test/seminarioGoLang.postman_collection.json)
+[Documentacion](./test/seminarioGoLang.postman_collection_1.2.json)
 
 ## Codigo de practica
 - [Repositorio de practicas](https://www.github.com/javierlopez987/goLang)

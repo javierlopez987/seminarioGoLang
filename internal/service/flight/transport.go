@@ -78,8 +78,13 @@ func getOne(s Service) gin.HandlerFunc {
 		if err != nil {
 			panic(err)
 		}
-		c.JSON(http.StatusOK, gin.H{
-			"flight": s.FindByID(id),
+		f := s.FindByID(id)
+		m := http.StatusOK
+		if f == nil {
+			m = http.StatusNotFound
+		} 
+		c.JSON(m, gin.H{
+			"flight": f,
 		})
 	}
 }

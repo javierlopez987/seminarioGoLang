@@ -1,0 +1,61 @@
+{
+	"info": {
+		"_postman_id": "a182f0e7-289d-4487-ad41-a23d81180517",
+		"name": "seminarioGoLang",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/flights",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"productos\": [\r\n\t{\r\n\t\t\"id\": \"5fbe4dbdf4d10a7bb8c467d3\"\r\n\t},\r\n\t{\r\n\t\t\"id\": \"5fbe4dbdf4d10a7bb8c467d6\"\r\n\t}\r\n\t],\r\n\t\"fecha\": \"2014-10-19T16:36:14.197Z\",\r\n\t\"direccion\": 50,\r\n\t\"precio\": 100\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/flights",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"flights"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/flights/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/flights/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"flights",
+						"12"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
